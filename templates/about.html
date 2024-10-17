@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | CineIntellect</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script> <!-- GSAP Library -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .header {
+            position: relative; 
+            text-align: center;
+            background-color: #343a40;
+            color: white;
+            padding: 20px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .header p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .about-content {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .about-content h2 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .about-content p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        /* Back Link Styles */
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            text-decoration: none;
+            color: #007bff;
+            font-size: 16px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid #007bff;
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            background-size: 200% 100%;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+            color: #fff;
+            background-position: 100% 0;
+            transform: scale(1.1) rotate(3deg);
+            animation: shake 0.5s;
+        }
+
+        /* Keyframes for animations */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-3px); }
+            50% { transform: translateX(3px); }
+            75% { transform: translateX(-3px); }
+            100% { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div class="header">
+        <h1 id="header-title">About CineIntellect</h1>
+        <p id="header-description">Welcome to CineIntellect - Your Ultimate Movie Guide</p>
+    </div>
+
+    <!-- About Content Section -->
+    <div class="container">
+        <div class="about-content">
+            <h2 class="section-title">Our Vision</h2>
+            <p class="section-content">
+                At CineIntellect, we believe that movies are more than just entertainment – they are an art form that inspires, educates, and connects people.
+                Our mission is to make the world of cinema accessible to everyone by providing personalized recommendations based on your taste, mood, and preferences.
+            </p>
+
+            <h2 class="section-title">What We Offer</h2>
+            <p class="section-content">
+                CineIntellect curates a vast library of films from different genres, languages, and time periods, all designed to help you discover hidden gems and explore the best in film.
+                Whether you're looking for a heartwarming drama, an adrenaline-pumping action movie, or an insightful documentary, our recommendation engine will guide you to the perfect pick.
+            </p>
+
+            <h2 class="section-title">Why Choose Us?</h2>
+            <p class="section-content">
+                With powerful filtering options, user-friendly design, and up-to-date information on the latest movies, trailers, and trends, CineIntellect is your one-stop solution for all things cinema.
+                Join us and take your movie-watching experience to a new level!
+            </p>
+
+            <a href="{{ url_for('index') }}" class="back-link">← Back to Home</a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.1/aos.js"></script>
+    <script>
+        // GSAP Animation for Header
+        gsap.from("#header-title", { duration: 1, y: -50, opacity: 0, ease: "power3.out" });
+        gsap.from("#header-description", { duration: 1, y: 50, opacity: 0, ease: "power3.out", delay: 0.3 });
+
+        // GSAP Animation for Content Sections
+        const titles = document.querySelectorAll('.section-title');
+        const contents = document.querySelectorAll('.section-content');
+
+        titles.forEach((title, index) => {
+            gsap.from(title, { duration: 1, y: -30, opacity: 0, ease: "power3.out", delay: 0.5 + index * 0.3 });
+        });
+
+        contents.forEach((content, index) => {
+            gsap.from(content, { duration: 1, y: 30, opacity: 0, ease: "power3.out", delay: 0.7 + index * 0.3 });
+        });
+
+        // GSAP Animation for Back Link
+        gsap.from(".back-link", { duration: 1, y: 20, opacity: 0, ease: "power3.out", delay: titles.length * 0.3 + 0.5 });
+    </script>
+</body>
+</html>

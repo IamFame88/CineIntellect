@@ -1,0 +1,281 @@
+/* Overall body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; 
+}
+
+/* Header Styling */
+header {
+    background-color: #1e90ff;
+    padding: 10px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 1.8rem; 
+    color: white;
+}
+
+/* Trending Movies Section */
+.trending-section {
+    padding: 20px;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.trending-movies-wrapper {
+    overflow-x: auto;
+    display: flex;
+    padding-bottom: 10px;
+    scrollbar-width: none; 
+}
+
+/* Hide scrollbar in Webkit-based browsers (e.g. Chrome, Safari) */
+.trending-movies-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.trending-movies {
+    display: flex;
+    gap: 15px;
+    transition: transform 0.3s ease;
+}
+
+.movie-card {
+    min-width: 185px; 
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.movie-card img {
+    width: 185px; 
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Remove overview, keep only title and release date */
+.movie-card h3 {
+    margin: 10px 0;
+    font-size: 1rem;
+}
+
+.movie-card p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Reduced hover effect */
+.movie-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.trending-movies-wrapper {
+    scroll-behavior: smooth;
+}
+
+.recommendation-section {
+    position: relative;
+    padding: 20px;
+}
+
+.recommendation-form {
+    position: relative;
+    z-index: 1; 
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    max-width: 500px;
+    margin: 20px auto;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Background image styling */
+.recommendation-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/static/images/formback.jpg'); 
+    background-size: cover;
+    background-position: center;
+    opacity: 1; 
+    z-index: 0; 
+}
+
+form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    animation: inputSlideIn 1s ease;
+}
+
+form button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #1e90ff; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+form button:hover {
+    background-color: #007bff; 
+    transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes inputSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Recommendations section */
+.recommendations {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.recommendation-item {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.recommendation-item h3 {
+    margin-top: 0;
+    font-size: 1.2rem;
+}
+
+.recommendation-item img {
+    width: 80px;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.recommendation-item iframe {
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+/* Top-Rated Movies Section */
+.top-rated-section {
+    padding: 20px;
+    max-width: 100%;
+    overflow: hidden;
+    background-color: #333; 
+    border-radius: 10px; 
+    margin-bottom: 20px; 
+}
+
+.top-rated-movies-wrapper {
+    overflow-x: auto;
+    display: flex;
+    padding-bottom: 10px;
+    scrollbar-width: none; 
+}
+
+.top-rated-movies-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.top-rated-movies {
+    display: flex;
+    gap: 15px;
+    transition: transform 0.3s ease;
+}
+
+/* Movie Card for Top-Rated Movies */
+.top-rated-card {
+    min-width: 185px; 
+    background-color: #444; 
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); 
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.top-rated-card img {
+    width: 185px; 
+    height: auto;
+    border-radius: 5px;
+}
+
+.top-rated-card h3 {
+    margin: 10px 0;
+    font-size: 1rem;
+    color: white; 
+}
+
+.top-rated-card p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #ddd; 
+}
+
+/* Reduced hover effect for Top-Rated Movies */
+.top-rated-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); 
+}
+
+/* Add responsive styles */
+@media (max-width: 768px) {
+    .recommendation-form {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .movie-card,
+    .top-rated-card {
+        min-width: 150px;
+    }
+
+    .recommendation-item {
+        padding: 15px;
+    }
+}

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <!-- AOS CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            animation: fadeIn 0.5s ease-in-out;
+            position: relative;
+            min-height: 100vh;
+            background-size: cover;
+            transition: background-image 0.3s ease;
+        }
+
+        /* Fade-in animation for body */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            color: #007BFF;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        /* Slide-in animation for header */
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .recommendation-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 10px;
+            position: relative; /* Ensure absolute positioning of child elements */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            max-width: 300px;
+            animation: cardFadeIn 0.6s ease-in-out forwards;
+        }
+
+        /* Add fade-in and bounce animation for recommendation cards */
+        @keyframes cardFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .recommendation-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .recommendation-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            transition: transform 0.3s ease;
+        }
+
+        .recommendation-card:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Info section styling */
+        .recommendation-info {
+            position: absolute;
+            bottom: 0; /* Position at the bottom of the card */
+            left: 0;
+            right: 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            transform: translateY(100%); /* Start off-screen */
+            transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transition */
+            opacity: 0; /* Start hidden */
+        }
+
+        .recommendation-card:hover .recommendation-info {
+            transform: translateY(0); /* Slide in */
+            opacity: 1; /* Fade in */
+        }
+
+        .recommendation-info h2 {
+            margin: 0 0 10px;
+            font-size: 1.5em;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .recommendation-info p {
+            margin: 5px 0;
+        }
+
+        /* Back button animation */
+        .back-button {
+            display: inline-block;
+            text-align: center;
+            margin: 0 auto;
+            padding: 15px 30px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            bottom: 0;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-footer {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            bottom: 20px;
+            padding: 20px 0;
+        }
+
+        /* Responsive iframe styling */
+        .trailer-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .trailer-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            transition: transform 0.3s ease;
+        }
+
+        .trailer-container iframe:hover {
+            transform: scale(1.05);
+        }
+
+        @media (min-width: 768px) {
+            .recommendation-card {
+                flex: 1 0 30%;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .recommendation-card {
+                flex-basis: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Your Movie Recommendations</h1>
+
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 100%;">
+            {% for recommendation in recommendations %}
+            <div class="recommendation-card" data-aos="fade-up"
+                 onmouseover="changeBackground('{{ recommendation.poster_url }}')" 
+                 onmouseout="resetBackground()">
+                <img src="{{ recommendation.poster_url }}" alt="{{ recommendation.title }}" data-aos="zoom-in">
+                <div class="recommendation-info">
+                    <h2 data-aos="flip-left">{{ recommendation.title }}</h2>
+                    <p><strong>Overview:</strong> {{ recommendation.overview }}</p>
+                    <p><strong>Release Date:</strong> {{ recommendation.release_date }}</p>
+                    <p><strong>Rating:</strong> {{ recommendation.rating }}</p>
+                    {% if recommendation.trailer_url %}
+                    <div class="trailer-container" data-aos="fade-in">
+                        <iframe src="{{ recommendation.trailer_url }}" allowfullscreen></iframe>
+                    </div>
+                    {% else %}
+                    <p>Trailer not available.</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Page footer containing back button -->
+        <div class="page-footer">
+            <a class="back-button" href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+        </div>
+    </div>
+
+    <!-- AOS JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let recommendationCards = document.querySelectorAll('.recommendation-card');
+            recommendationCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.2}s`;
+            });
+        });
+
+        function changeBackground(imageUrl) {
+            document.body.style.backgroundImage = `url(${imageUrl})`;
+            document.body.style.backgroundColor = "black";
+        }
+
+        function resetBackground() {
+            document.body.style.backgroundImage = "none";
+            document.body.style.backgroundColor = "#f4f4f4";
+        }
+    </script>
+</body>
+
+</html>
